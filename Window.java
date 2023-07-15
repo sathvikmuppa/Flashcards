@@ -49,12 +49,14 @@ public class Window extends JFrame implements ActionListener {
 
         this.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseMoved(MouseEvent e) {
-                if (e.getX() <= 5) {
+                if (e.getX() <=10 && e.getY() >= Window.this.getHeight()-10) {
+                    Window.this.setCursor(new Cursor(Cursor.NE_RESIZE_CURSOR));
+                } else if (e.getX()>=Window.this.getWidth()-10 && e.getY() >= Window.this.getHeight()-10) {
+                    Window.this.setCursor(new Cursor(Cursor.NW_RESIZE_CURSOR));
+                } else if (e.getX() <= 5) {
                     Window.this.setCursor(new Cursor(Cursor.W_RESIZE_CURSOR));
                 } else if (e.getX() >= Window.this.getWidth()-5){
                     Window.this.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-                } else if (e.getY() <= 5) {
-                    Window.this.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
                 } else if (e.getY() >= Window.this.getHeight()-5) {
                     Window.this.setCursor(new Cursor(Cursor.S_RESIZE_CURSOR));
                 } else {
@@ -108,10 +110,10 @@ public class Window extends JFrame implements ActionListener {
         header.addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 if (device.getFullScreenWindow() == null) {
-                    if (Window.this.getCursor().getType() != Cursor.N_RESIZE_CURSOR) {
+                    if (Window.this.getCursor().getType() == Cursor.DEFAULT_CURSOR) {
                         Window.this.setLocation(Window.this.getX() + e.getX() - mouseX,
                         Window.this.getY() + e.getY() - mouseY);
-                    } else {
+                    } else if (Window.this.getCursor().getType() == Cursor.N_RESIZE_CURSOR) {
                         if (Window.this.getHeight()!=Window.this.getMinimumSize().getHeight()) {
                             if (Window.this.getHeight() - e.getY() > Window.this.getMinimumSize().getHeight()) {
                                 Window.this.setLocation(Window.this.getX(), Window.this.getY() + e.getY());
@@ -120,12 +122,25 @@ public class Window extends JFrame implements ActionListener {
                             }
                         }
                         Window.this.setSize(Window.this.getWidth(), Window.this.getHeight() - e.getY());
+                    } else if (Window.this.getCursor().getType() == Cursor.SE_RESIZE_CURSOR) {
+                        if (Window.this.getWidth()!=Window.this.getMinimumSize().getWidth() && Window.this.getHeight()!=Window.this.getMinimumSize().getHeight()) {
+                            if (Window.this.getWidth() - e.getX() > Window.this.getMinimumSize().getWidth() && Window.this.getHeight() - e.getY() > Window.this.getMinimumSize().getHeight()) {
+                                Window.this.setLocation(Window.this.getX() + e.getY(), Window.this.getY() + e.getY());
+                            } else {
+                                Window.this.setLocation((int) (Window.this.getX() + Window.this.getWidth() - Window.this.getMinimumSize().getWidth()), (int) (Window.this.getY() + Window.this.getHeight() - Window.this.getMinimumSize().getHeight()));
+                            }
+                        }
+                        Window.this.setSize(Window.this.getWidth(), Window.this.getHeight() - e.getY());                 
                     }
                 }
             }
 
             public void mouseMoved(MouseEvent e) {
-                if (e.getY() <= 5) {
+                if (e.getX() <=10 && e.getY() <= 10) {
+                    Window.this.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
+                } else if (e.getX()>=Window.this.getWidth()-10 && e.getY() <= 10) {
+                    Window.this.setCursor(new Cursor(Cursor.SW_RESIZE_CURSOR));
+                } else if (e.getY() <= 5) {
                     Window.this.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
                 } else {
                     Window.this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

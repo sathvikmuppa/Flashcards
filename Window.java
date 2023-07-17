@@ -69,7 +69,15 @@ public class Window extends JFrame implements ActionListener {
 
             public void mouseDragged(MouseEvent e) {
                 if (Window.this.getCursor().getType() == Cursor.NE_RESIZE_CURSOR) {
-
+                    if (Window.this.getWidth() != Window.this.getMinimumSize().getWidth()) {
+                        if (Window.this.getWidth() - e.getX() > Window.this.getMinimumSize().getWidth()) {
+                            Window.this.setLocation(Window.this.getX() + e.getX(), Window.this.getY());
+                        } else {
+                            Window.this.setLocation((int) (Window.this.getX() + Window.this.getWidth()
+                                    - Window.this.getMinimumSize().getWidth()), Window.this.getY());
+                        }
+                    }
+                    Window.this.setSize(Window.this.getWidth() - e.getX(), e.getY());
                 } else if (Window.this.getCursor().getType() == Cursor.NW_RESIZE_CURSOR) {
                     Window.this.setSize(e.getX(), e.getY());
                 } else if (Window.this.getCursor().getType() == Cursor.W_RESIZE_CURSOR) {
@@ -132,6 +140,7 @@ public class Window extends JFrame implements ActionListener {
                         }
                         Window.this.setSize(Window.this.getWidth(), Window.this.getHeight() - e.getY());
                     } else if (Window.this.getCursor().getType() == Cursor.SE_RESIZE_CURSOR) {
+                        System.out.println(e.getX() + " " + e.getY());
                         if (Window.this.getWidth() != Window.this.getMinimumSize().getWidth()
                                 && Window.this.getHeight() != Window.this.getMinimumSize().getHeight()) {
                             if (Window.this.getWidth() - e.getX() > Window.this.getMinimumSize().getWidth()
@@ -143,9 +152,10 @@ public class Window extends JFrame implements ActionListener {
                                                 - Window.this.getMinimumSize().getWidth()),
                                         (int) (Window.this.getY() + Window.this.getHeight()
                                                 - Window.this.getMinimumSize().getHeight()));
+                                                System.out.println("breh");
                             }
                         }
-                        Window.this.setSize(Window.this.getWidth(), Window.this.getHeight() - e.getY());
+                        Window.this.setSize(Window.this.getWidth()+e.getX(), Window.this.getHeight() - e.getY());
                     }
                 }
             }

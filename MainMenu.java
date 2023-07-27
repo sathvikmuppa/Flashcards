@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class MainMenu extends JPanel implements ActionListener{
+public class MainMenu extends JPanel implements ActionListener {
 
-    Color bg = new Color(18,18,18);
+    Color bg = new Color(18, 18, 18);
 
     public MainMenu() {
         this.setLayout(new BorderLayout());

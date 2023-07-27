@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -187,24 +188,33 @@ public class Window extends JFrame implements ActionListener {
 
                     } else if (Window.this.getCursor().getType() == Cursor.SE_RESIZE_CURSOR) { // top left corner
 
-                        System.out.println(e.getX() + " " + e.getY()); // mouse coords
-                        if (Window.this.getWidth() != Window.this.getMinimumSize().getWidth()
-                                && Window.this.getHeight() != Window.this.getMinimumSize().getHeight()) {
-                            // if width and height are not at minimum
-                            if (Window.this.getWidth() - e.getX() > Window.this.getMinimumSize().getWidth()
-                                    && Window.this.getHeight() - e.getY() > Window.this.getMinimumSize().getHeight()) {
-                                // if the change in both width and height is more than their minimums
-                                Window.this.setLocation(Window.this.getX() + e.getY(), Window.this.getY() + e.getY());
+                        // if width is not at its minimum then... (this is the same code as the left side)
+                        if (Window.this.getWidth() != Window.this.getMinimumSize().getWidth()) {
+                            // if this change is going to exceed the minimum then...
+                            if (Window.this.getWidth() - e.getX() > Window.this.getMinimumSize().getWidth()) {
+                                // move window to account for the change in size on the right side
+                                Window.this.setLocation(Window.this.getX() + e.getX(), Window.this.getY());
                             } else { // otherwise...
-                                Window.this.setLocation(
-                                        (int) (Window.this.getX() + Window.this.getWidth()
-                                                - Window.this.getMinimumSize().getWidth()),
-                                        (int) (Window.this.getY() + Window.this.getHeight()
-                                                - Window.this.getMinimumSize().getHeight()));
+                                Window.this.setLocation((int) (Window.this.getX() + Window.this.getWidth()
+                                        - Window.this.getMinimumSize().getWidth()), Window.this.getY());
+                            }
+                        } // change size based on drag
+                        Window.this.setSize(Window.this.getWidth() - e.getX(), Window.this.getHeight());
+
+                        // if height is not at its minimum then... (this is the same code as top border)
+                        if (Window.this.getHeight() != Window.this.getMinimumSize().getHeight()) {
+                            // if the change in size passes the minimum then...
+                            if (Window.this.getHeight() - e.getY() > Window.this.getMinimumSize().getHeight()) {
+                                // move window to account for the change in size on the bottom
+                                Window.this.setLocation(Window.this.getX(), Window.this.getY() + e.getY());
+                            } else { // otherwise...
+                                Window.this.setLocation(Window.this.getX(), (int) (Window.this.getY()
+                                        + Window.this.getHeight() - Window.this.getMinimumSize().getHeight()));
                             }
                         }
                         // change size
-                        Window.this.setSize(Window.this.getWidth() + e.getX(), Window.this.getHeight() - e.getY());
+                        Window.this.setSize(Window.this.getWidth(), Window.this.getHeight() - e.getY());
+
                     }
                 }
             }

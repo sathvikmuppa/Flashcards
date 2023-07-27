@@ -268,6 +268,7 @@ public class Window extends JFrame implements ActionListener {
 
         header.add(windowButtons, BorderLayout.EAST);
         this.add(header, BorderLayout.NORTH);
+
         this.setVisible(true);
     }
 
